@@ -4,12 +4,14 @@ import appState from '@builder.io/app-context';
 import { Builder } from '@builder.io/react';
 import { Button } from '@material-ui/core';
 
-export const registerContentAction = (contentAction: {
-  label: string;
-  showIf(content: any, model: any): Boolean;
-  onClick(content: any): Promise<void>;
-}) => {
-  Builder.register('content.action', contentAction);
+export const registerContentAction = () => {
+  Builder.register('editor.editTab', {
+    name: (
+      // @ts-ignore next-line
+      <div>My new tab</div>
+    ),
+    component: () => <div>heyyy</div>,
+  });
 };
 
 export const fastClone = (obj: any) =>
