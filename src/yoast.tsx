@@ -1,14 +1,14 @@
-import { Builder, builder } from "@builder.io/react";
-import { registerCommercePlugin as registerPlugin } from "@builder.io/commerce-plugin-tools";
-import pkg from "../package.json";
+import { Builder, builder } from '@builder.io/react';
+import { registerCommercePlugin as registerPlugin } from '@builder.io/commerce-plugin-tools';
+import pkg from '../package.json';
 import {
   Paper,
   AbstractResearcher,
   ContentAssessor,
   SEOAssessor,
-} from "yoastseo";
-import React from "react";
-import { useState, useEffect } from "react";
+} from 'yoastseo';
+import React from 'react';
+import { useState, useEffect } from 'react';
 
 interface AnalysisResult {
   results: Array<{ text: string }>;
@@ -22,94 +22,61 @@ interface YoastSEOAnalysisProps {
   url: string;
 }
 
-// function YoastSEOAnalysis(props: YoastSEOAnalysisProps) {
-//   const [seoResults, setSeoResults] = useState<AnalysisResult | null>(null);
-//   const [readabilityResults, setReadabilityResults] =
-//     useState<AnalysisResult | null>(null);
+export function YoastSEOAnalysis(props: YoastSEOAnalysisProps) {
+  const [seoResults, setSeoResults] = useState<AnalysisResult | null>(null);
+  const [
+    readabilityResults,
+    setReadabilityResults,
+  ] = useState<AnalysisResult | null>(null);
 
-//   const { value, keyword, title, description, url } = props;
+  const { value, keyword, title, description, url } = props;
 
-//   useEffect(() => {
-//     const analyzeContent = () => {
-//       const paper = new Paper(value, {
-//         keyword,
-//         title,
-//         titleWidth: 600,
-//         description,
-//         url,
-//         permalink: url,
-//       });
+  useEffect(
+    () => {
+      const analyzeContent = () => {
+        const paper = new Paper(value, {
+          keyword,
+          title,
+          titleWidth: 600,
+          description,
+          url,
+          permalink: url,
+        });
 
-//       const researcher = new AbstractResearcher(paper);
-//       const contentAssessor = new ContentAssessor(researcher);
-//       const seoAssessor = new SEOAssessor(researcher);
+        const researcher = new AbstractResearcher(paper);
+        const contentAssessor = new ContentAssessor(researcher);
+        const seoAssessor = new SEOAssessor(researcher);
 
-//       contentAssessor.assess(paper);
-//       seoAssessor.assess(paper);
+        contentAssessor.assess(paper);
+        seoAssessor.assess(paper);
 
-//       setSeoResults({ results: seoAssessor.getResults() });
-//       setReadabilityResults({ results: contentAssessor.getResults() });
-//     };
+        setSeoResults({ results: seoAssessor.getResults() });
+        setReadabilityResults({ results: contentAssessor.getResults() });
+      };
 
-//     analyzeContent();
-//   }, [value, keyword, title, description, url]);
+      analyzeContent();
+    },
+    [value, keyword, title, description, url]
+  );
 
-//   return (
-//     <div>
-//       <h3>SEO Analysis</h3>
-//       {seoResults && (
-//         <ul>
-//           {seoResults.results.map((result, index) => (
-//             <li key={index}>{result.text}</li>
-//           ))}
-//         </ul>
-//       )}
-//       <h3>Readability Analysis</h3>
-//       {readabilityResults && (
-//         <ul>
-//           {readabilityResults.results.map((result, index) => (
-//             <li key={index}>{result.text}</li>
-//           ))}
-//         </ul>
-//       )}
-//     </div>
-//   );
-// }
-
-// first thing that works
-// Builder.register("insertMenu", {
-//   name: "Simple components",
-//   items: [{ name: "NotExist" }],
-// });
-
-// export function registerEditorOnLoad(reactionCallback: (actions: any) => void) {
-//   Builder.register("editor.onLoad", reactionCallback);
-// }
-
-// registerPlugin(
-//   {
-//     name: pkg.name,
-//     id: pkg.name,
-//     settings: [
-//       {
-//         name: "exampleField",
-//         type: "string",
-//         required: true,
-//       },
-//     ],
-//     ctaText: `Save`,
-//     noPreviewTypes: true,
-//   },
-//   async (settings) => {
-//     Builder.registerEditor();
-
-//     Builder.register("editor.onLoad", () => {
-//       Builder.register("editor.editTab", {
-//         name: <div>Name</div>,
-//         component: () => <div>Component call</div>,
-//       });
-//     });
-
-//     return {};
-//   }
-// );
+  return (
+    <div>
+      <h3>SEO Analysis</h3>
+      {seoResults && (
+        <ul>
+          {seoResults.results.map((result, index) => (
+            <li key={index}>{result.text}</li>
+          ))}
+        </ul>
+      )}
+      <h3>Readability Analysis</h3>
+      {readabilityResults && (
+        <ul>
+          {readabilityResults.results.map((result, index) => (
+            <li key={index}>{result.text}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
