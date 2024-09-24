@@ -127,6 +127,7 @@
     "@builder.io/commerce-plugin-tools": "0.3.0",
     "lodash": "4.17.21",
     "traverse": "0.6.6",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "yoastseo": "^2.0.0-alpha.0"
   }
 }
