@@ -3,14 +3,15 @@ import '@emotion/core';
 import appState from '@builder.io/app-context';
 import { Builder } from '@builder.io/react';
 import { Button } from '@material-ui/core';
+import { YoastSEOAnalysis } from './yoast';
 
 export const registerContentAction = () => {
   Builder.register('editor.editTab', {
     name: (
       // @ts-ignore next-line
-      <div>My new tab</div>
+      <div>YoastSEO Plugin</div>
     ),
-    component: () => <div>heyyy</div>,
+    component: () => <YoastSEOAnalysis />,
   });
 };
 

@@ -15,11 +15,11 @@ interface AnalysisResult {
 }
 
 interface YoastSEOAnalysisProps {
-  value: string;
-  keyword: string;
-  title: string;
-  description: string;
-  url: string;
+  value?: string;
+  keyword?: string;
+  title?: string;
+  description?: string;
+  url?: string;
 }
 
 export function YoastSEOAnalysis(props: YoastSEOAnalysisProps) {
@@ -29,35 +29,35 @@ export function YoastSEOAnalysis(props: YoastSEOAnalysisProps) {
     setReadabilityResults,
   ] = useState<AnalysisResult | null>(null);
 
-  const { value, keyword, title, description, url } = props;
+  // const { value, keyword, title, description, url } = props;
 
-  useEffect(
-    () => {
-      const analyzeContent = () => {
-        const paper = new Paper(value, {
-          keyword,
-          title,
-          titleWidth: 600,
-          description,
-          url,
-          permalink: url,
-        });
+  // useEffect(
+  //   () => {
+  //     const analyzeContent = () => {
+  //       const paper = new Paper(value, {
+  //         keyword,
+  //         title,
+  //         titleWidth: 600,
+  //         description,
+  //         url,
+  //         permalink: url,
+  //       });
 
-        const researcher = new AbstractResearcher(paper);
-        const contentAssessor = new ContentAssessor(researcher);
-        const seoAssessor = new SEOAssessor(researcher);
+  //       const researcher = new AbstractResearcher(paper);
+  //       const contentAssessor = new ContentAssessor(researcher);
+  //       const seoAssessor = new SEOAssessor(researcher);
 
-        contentAssessor.assess(paper);
-        seoAssessor.assess(paper);
+  //       contentAssessor.assess(paper);
+  //       seoAssessor.assess(paper);
 
-        setSeoResults({ results: seoAssessor.getResults() });
-        setReadabilityResults({ results: contentAssessor.getResults() });
-      };
+  //       setSeoResults({ results: seoAssessor.getResults() });
+  //       setReadabilityResults({ results: contentAssessor.getResults() });
+  //     };
 
-      analyzeContent();
-    },
-    [value, keyword, title, description, url]
-  );
+  //     analyzeContent();
+  //   },
+  //   [value, keyword, title, description, url]
+  // );
 
   return (
     <div>
