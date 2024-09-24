@@ -1,0 +1,45 @@
+{
+  "name": "@builder.io/plugin-yoast-seo",
+  "version": "0.0.1",
+  "description": "Yoast SEO plugin for Builder.io",
+  "keywords": [],
+  "main": "dist/plugin.system.js",
+  "unpkg": "dist/plugin.system.js",
+  "files": [
+    "dist"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.ts",
+    "start": "SERVE=true rollup -c rollup.config.ts -w",
+    "setup": "npm run build && npm run start"
+  },
+  "devDependencies": {
+    "@builder.io/react": "^2.0.4",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.2",
+    "@rollup/plugin-replace": "^5.0.7",
+    "@types/node": "^22.5.4",
+    "@types/react": "^16.9.11",
+    "esbuild": "^0.12.15",
+    "rollup": "^2.53.2",
+    "rollup-plugin-esbuild": "^4.5.0",
+    "rollup-plugin-serve": "^1.1.1",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "yoastseo": "^2.0.0-alpha.0"
+  },
+  "peerDependencies": {
+    "@builder.io/react": "^2.0.4"
+  }
+}
