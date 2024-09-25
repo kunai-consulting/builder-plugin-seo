@@ -92,6 +92,7 @@
     "coveralls": "3.0.2",
     "cross-env": "5.2.0",
     "cz-conventional-changelog": "2.1.0",
+    "dotenv": "^16.4.5",
     "esbuild": "0.12.15",
     "husky": "1.0.1",
     "i": "0.3.6",
