@@ -4,7 +4,7 @@ import appState from '@builder.io/app-context';
 import {
   getSEOReviewModel,
   getSEOReviewModelTemplate,
-  registerContentAction,
+  registerComponent,
   getIframeHTMLContent,
   showReviewNotifications,
   fastClone,
@@ -37,7 +37,7 @@ registerPlugin(
   // settings is a map of the settings fields above
   async (settings) => {
     // press the vertical dots in the content editor to see this in action
-    registerContentAction();
+    registerComponent();
 
     return {};
   }

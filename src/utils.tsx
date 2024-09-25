@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '@emotion/core';
-import appState from '@builder.io/app-context';
+import { appState } from '@builder.io/app-context';
 import { Builder } from '@builder.io/react';
 import { Button } from '@material-ui/core';
 import { YoastSEOAnalysis } from './yoast';
 
-export const registerContentAction = () => {
+export const registerComponent = () => {
   Builder.register('editor.editTab', {
     name: (
       // @ts-ignore next-line
