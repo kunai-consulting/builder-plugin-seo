@@ -1,6 +1,6 @@
 {
-  "name": "@builder.io/plugin-example-seo-review",
-  "version": "0.0.-",
+  "name": "@builder.io/yoast-seo",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
   "main": "dist/plugin.system.js",

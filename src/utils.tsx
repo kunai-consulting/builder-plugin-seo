@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '@emotion/core';
-import appState from '@builder.io/app-context';
+import { appState } from '@builder.io/app-context';
 import { Builder } from '@builder.io/react';
 import { Button } from '@material-ui/core';
+import { YoastSEOAnalysis } from './yoast';
 
-export const registerContentAction = (contentAction: {
-  label: string;
-  showIf(content: any, model: any): Boolean;
-  onClick(content: any): Promise<void>;
-}) => {
-  Builder.register('content.action', contentAction);
+export const registerComponent = () => {
+  Builder.register('editor.editTab', {
+    name: (
+      // @ts-ignore next-line
+      <div>YoastSEO Plugin</div>
+    ),
+    component: () => <YoastSEOAnalysis />,
+  });
 };
 
 export const fastClone = (obj: any) =>
