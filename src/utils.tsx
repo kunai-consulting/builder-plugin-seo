@@ -75,9 +75,3 @@ export const showReviewNotifications = (jobId: string) => {
     </Button>
   );
 };
-
-export const getIframeHTMLContent = (): Promise<string> => {
-  return appState.designerState.evaluateInFrame(() =>
-    new XMLSerializer().serializeToString(document)
-  );
-};

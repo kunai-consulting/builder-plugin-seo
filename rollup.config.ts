@@ -4,7 +4,10 @@ import esbuild from 'rollup-plugin-esbuild';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import common from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import dotenv from 'dotenv';
 const SERVE = process.env.SERVE === 'true';
+
+dotenv.config();
 
 const pkg = require('./package.json');
 
@@ -36,6 +39,7 @@ export default {
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.PUBLIC_BUILDER_API_KEY': JSON.stringify(process.env.PUBLIC_BUILDER_API_KEY),
     }),
     json(),
     nodeResolve({ mainFields: ['module', 'browser'] }),
