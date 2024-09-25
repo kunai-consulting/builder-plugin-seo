@@ -56,16 +56,10 @@ registerPlugin(
   },
   async (settings) => {
     Builder.register("editor.onLoad", async () => {
-      console.log("SETTINGS: ", settings);
-
       console.log("LOADING EDITOR");
-      registerComponent();
-
-      builder.init(apiKey);
-      const data = await fetchBuilderContent(apiKey);
-      console.log("IN ONLOAD: ", data);
-
-      console.log(await appState.designerState);
+      if (!Builder.registry['editor.editTab']) {
+        registerComponent();
+      }
     });
 
     return {};
