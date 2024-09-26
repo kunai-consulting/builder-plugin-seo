@@ -15,6 +15,24 @@ export const registerComponent = () => {
   });
 };
 
+export const registerDesignToken = () => {
+  Builder.register('editor.settings', {
+    designTokensOptional: true,
+    designTokens: {
+      colors: [
+        { name: 'Kunai Red', value: '#E95A51' },
+        { name: 'Kunai Navy', value: '#2F3652' },
+        { name: 'Kunai Teal', value: '#D6E9D9' },
+        { name: 'Kunai Blue', value: '#8196D8' },
+      ],
+      fontFamily: [
+        { name: 'TitlingGothicFB', value: 'TitlingGothicFB Normal' },
+        { name: 'Warnock Pro', value: 'Warnock Pro' },
+      ],
+    },
+  });
+};
+
 export const fastClone = (obj: any) =>
   obj === undefined ? undefined : JSON.parse(JSON.stringify(obj));
 

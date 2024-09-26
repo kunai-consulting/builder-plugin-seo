@@ -6,6 +6,7 @@ import {
   getSEOReviewModel,
   getSEOReviewModelTemplate,
   registerComponent,
+  registerDesignToken,
 } from "./utils";
 
 export async function fetchBuilderContent(apiKey: string) {
@@ -59,6 +60,9 @@ registerPlugin(
       console.log("LOADING EDITOR");
       if (!Builder.registry['editor.editTab']) {
         registerComponent();
+      }
+      if (!Builder.registry['editor.settings']) {
+        registerDesignToken();
       }
     });
 
