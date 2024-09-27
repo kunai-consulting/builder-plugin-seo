@@ -1,6 +1,8 @@
 # Builder.io SEO Review Plugin
 Demo for extracting and processing html content of iframed preview areas
 
+![Public Repo](https://img.shields.io/badge/status-public-brightgreen.svg)
+
 ## Installation
 
 - clone this repo
