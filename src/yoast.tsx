@@ -1,128 +1,128 @@
-import { Builder, builder } from '@builder.io/react';
-import { registerCommercePlugin as registerPlugin } from '@builder.io/commerce-plugin-tools';
-import pkg from '../package.json';
-import {
-  Paper,
-  AbstractResearcher,
-  ContentAssessor,
-  SEOAssessor,
-} from 'yoastseo';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import appState from "@builder.io/app-context";
-import { fastClone } from './utils';
+import { KeywordDensity, LinksGroup, SeoCheck } from "seord";
 
-interface AnalysisResult {
-  results: Array<{ text: string }>;
+type Results = {
+  seoScore: number;
+  wordCount: number;
+  keywordSeoScore: number;
+  keywordFrequency: number;
+  messages: {
+    warnings: string[];
+    minorWarnings: string[];
+    goodPoints: string[];
+  };
+  keywordDensity: number;
+  subKeywordDensity: KeywordDensity[];
+  totalLinks: number;
+  internalLinks: LinksGroup;
+  outboundLinks: LinksGroup;
+  titleSEO: {
+    subKeywordsWithTitle: KeywordDensity[];
+    keywordWithTitle: KeywordDensity;
+    wordCount: number;
+  }
 }
 
-interface YoastSEOAnalysisProps {
-  value?: string;
-  keyword?: string;
-  title?: string;
-  description?: string;
-  url?: string;
+type PluginOpts = {
+  setResults: (results: Results) => void,
+  previewUrl: string,
 }
 
-export function YoastSEOAnalysis(props: YoastSEOAnalysisProps) {
-  const [seoResults, setSeoResults] = useState<AnalysisResult | null>(null);
-  const [
-    readabilityResults,
-    setReadabilityResults,
-  ] = useState<AnalysisResult | null>(null);
+async function getSeoResults({ setResults, previewUrl }: PluginOpts) {
+  const response = await fetch(previewUrl, { method: 'GET', mode: 'cors' });
+  const html = await response.text();
 
-  console.log("IN YOAST: ", fastClone(appState.designerState?.editingContentModel?.data));
+  console.log('HTML: ', html)
 
-  /**
-   *  Option 2: Run through the page with the preview url, extract the words.
-   * 
-   */
+  const contentJson = {
+    title: 'Does Progressive raise your rates after 6 months?',
+    htmlText: html,
+    keyword: 'progressive',
+    subKeywords: ['car insurance', 'rates', 'premiums', 'save money', 'US'],
+    metaDescription: 'Find out if Progressive raises your rates after 6 months and what factors can impact your insurance premiums. Learn how to save money on car insurance in the US.',
+    languageCode: 'en',
+    countryCode: 'us'
+  };
 
-  async function getStreamedHTML(url: string) {
-    const response = await fetch(url);
-    const reader = response.body?.getReader();
-    const decoder = new TextDecoder();
+  const seoCheck = new SeoCheck(contentJson, appState.designerState?.editingContentModel?.previewUrl || 'https://example.com');
+
+  const newResults = await seoCheck.analyzeSeo();
   
-    let result = '';
-  
-    while (true) {
-      const { done, value } = await reader?.read();
-      if (done) break;
-      
-      const chunk = decoder.decode(value, { stream: true });
-      result += chunk;
-  
-      // Process the chunk here (e.g., update the DOM)
-      console.log('Received chunk:', chunk);
-    }
-  
-    return result;
+  setResults(newResults);
+}
+
+export function SEOAnalysis(props) {
+  const [results, setResults] = useState<Results | undefined>();
+
+  const pluginOpts: PluginOpts = {
+    setResults: (newResults: Results) => setResults(newResults),
+    previewUrl: appState.designerState?.editingContentModel?.previewUrl || '',
   }
 
   useEffect(() => {
-    async function grabData() {
-      // const data = await fetch(appState.designerState?.editingContentModel?.previewUrl)
-      const data = await getStreamedHTML(appState.designerState?.editingContentModel?.previewUrl);
-
-
-      console.log('data', data);
-      console.log('editing content: ', appState.designerState?.editingContentModel)
-      console.log('url', appState.designerState?.editingContentModel?.previewUrl)
-
-      return data;
+    async function asyncResults() {
+      await getSeoResults(pluginOpts);
     }
 
-    grabData();
-  })
+    asyncResults();
+  }, []);
 
-  // const { value, keyword, title, description, url } = props;
-
-  // useEffect(
-  //   () => {
-  //     const analyzeContent = () => {
-  //       const paper = new Paper(value, {
-  //         keyword,
-  //         title,
-  //         titleWidth: 600,
-  //         description,
-  //         url,
-  //         permalink: url,
-  //       });
-
-  //       const researcher = new AbstractResearcher(paper);
-  //       const contentAssessor = new ContentAssessor(researcher);
-  //       const seoAssessor = new SEOAssessor(researcher);
-
-  //       contentAssessor.assess(paper);
-  //       seoAssessor.assess(paper);
-
-  //       setSeoResults({ results: seoAssessor.getResults() });
-  //       setReadabilityResults({ results: contentAssessor.getResults() });
-  //     };
-
-  //     analyzeContent();
-  //   },
-  //   [value, keyword, title, description, url]
-  // );
+  const {
+    messages,
+    seoScore,
+    keywordSeoScore,
+    keywordDensity,
+    subKeywordDensity,
+    keywordFrequency,
+    wordCount,
+    totalLinks
+  } = results || {};
 
   return (
-    <div>
-      <h3>SEO Analysis</h3>
-      {seoResults && (
+    <div className="seo-analysis-results">
+      <h2>SEO Analysis Results</h2>
+      
+      <section>
+        <h3>Warnings ({messages?.warnings?.length || 0})</h3>
         <ul>
-          {seoResults.results.map((result, index) => (
-            <li key={index}>{result.text}</li>
+          {messages?.warnings?.map((warning, index) => (
+            <li key={`warning-${index}`}>{warning}</li>
           ))}
         </ul>
-      )}
-      <h3>Readability Analysis</h3>
-      {readabilityResults && (
+      </section>
+
+      <section>
+        <h3>Good Points ({messages?.goodPoints?.length || 0})</h3>
         <ul>
-          {readabilityResults.results.map((result, index) => (
-            <li key={index}>{result.text}</li>
+          {messages?.goodPoints?.map((point, index) => (
+            <li key={`good-point-${index}`}>{point}</li>
           ))}
         </ul>
-      )}
+      </section>
+
+      <section>
+        <h3>Minor Warnings ({messages?.minorWarnings?.length || 0})</h3>
+        <ul>
+          {messages?.minorWarnings?.map((warning, index) => (
+            <li key={`minor-warning-${index}`}>{warning}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3>Scores and Metrics</h3>
+        <ul>
+          <li>SEO Score: {seoScore}</li>
+          <li>Keyword SEO Score: {keywordSeoScore}</li>
+          <li>Keyword Density: {keywordDensity}</li>
+          <li>Sub Keyword Density: {subKeywordDensity?.map(({ keyword, density }) => `(${keyword} ${density})`).join(', ')}</li>
+          <li>Keyword Frequency: {keywordFrequency}</li>
+          <li>Word Count: {wordCount}</li>
+          <li>Total Links: {totalLinks}</li>
+        </ul>
+      </section>
     </div>
   );
 }
