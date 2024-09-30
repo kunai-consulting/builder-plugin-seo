@@ -1,56 +1,34 @@
 import { registerCommercePlugin as registerPlugin } from "@builder.io/commerce-plugin-tools";
-import { Builder, builder } from "@builder.io/react";
+import { Builder } from "@builder.io/react";
 import pkg from "../package.json";
-import appState from "@builder.io/app-context";
-import {
-  getSEOReviewModel,
-  getSEOReviewModelTemplate,
-  registerComponent,
-} from "./utils";
+import { SEOAnalysis } from "./seo-checker";
+import * as React from 'react';
 
-export async function fetchBuilderContent(apiKey: string) {
-  const modelName = "page";
-  const url = `https://cdn.builder.io/api/v3/content/page?apiKey=${apiKey}`;
-
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("DATA: ", data);
-    return data;
-  } catch (error) {
-    console.error("Error fetching Builder.io content:", error);
-    throw error;
+export const registerComponent = () => {
+  const dummyProps = {
+    keyword: 'my test',
+    subKeywords: ['test 1', 'test 2']
   }
-}
 
-const apiKey = process.env.PUBLIC_BUILDER_API_KEY ?? '';
+  Builder.register("editor.editTab", {
+    name: (
+      // @ts-ignore next-line
+      <div>YoastSEO Plugin</div>
+    ),
+    component: () => <SEOAnalysis keyword={dummyProps.keyword} subKeywords={dummyProps.subKeywords} />,
+  })};
 
 /**
  * Instruct builder to require few settings before running the plugin code, for example when an apiKey for the service is required
  */
 registerPlugin(
   {
-    name: "YoastSEO",
+    name: "SEOChecker",
     id: pkg.name,
-    settings: [
-      {
-        name: "apiKey",
-        type: "string",
-        helperText: "get the api key from your example.com dashboard",
-        required: true,
-      },
-    ],
+    settings: [],
     // Builder will notify plugin user to configure the settings above, and call this function when it's filled
     onSave: async (actions) => {
-      // adds a new model, only once when the user has added their api key
-      if (!getSEOReviewModel()) {
-        actions.addModel(getSEOReviewModelTemplate());
-      }
+      // if we need to save
     },
     ctaText: `Connect your Foo bar service account`,
   },

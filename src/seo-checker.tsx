@@ -28,10 +28,10 @@ type Results = {
 type PluginOpts = {
   setResults: (results: Results) => void,
   previewUrl: string,
-}
+} & SEOAnalysisProps
 
-async function getSeoResults({ setResults, previewUrl }: PluginOpts) {
-  const response = await fetch(previewUrl, { method: 'GET', mode: 'cors' });
+async function getSeoResults(pluginOpts: PluginOpts) {
+  const response = await fetch(pluginOpts.previewUrl, { method: 'GET', mode: 'cors' });
   const html = await response.text();
 
   console.log('HTML: ', html)
@@ -39,26 +39,34 @@ async function getSeoResults({ setResults, previewUrl }: PluginOpts) {
   const contentJson = {
     title: 'Does Progressive raise your rates after 6 months?',
     htmlText: html,
-    keyword: 'progressive',
-    subKeywords: ['car insurance', 'rates', 'premiums', 'save money', 'US'],
+    keyword: pluginOpts.keyword,
+    subKeywords: pluginOpts.subKeywords,
     metaDescription: 'Find out if Progressive raises your rates after 6 months and what factors can impact your insurance premiums. Learn how to save money on car insurance in the US.',
     languageCode: 'en',
     countryCode: 'us'
   };
 
-  const seoCheck = new SeoCheck(contentJson, appState.designerState?.editingContentModel?.previewUrl || 'https://example.com');
+  const seoCheck = new SeoCheck(contentJson, pluginOpts.previewUrl || 'https://example.com');
 
   const newResults = await seoCheck.analyzeSeo();
   
-  setResults(newResults);
+  pluginOpts.setResults(newResults);
 }
 
-export function SEOAnalysis(props) {
+
+type SEOAnalysisProps = {
+  keyword: string,
+  subKeywords: string[],
+}
+
+export function SEOAnalysis(props: SEOAnalysisProps) {
   const [results, setResults] = useState<Results | undefined>();
 
   const pluginOpts: PluginOpts = {
     setResults: (newResults: Results) => setResults(newResults),
     previewUrl: appState.designerState?.editingContentModel?.previewUrl || '',
+    keyword: props.keyword,
+    subKeywords: props.subKeywords
   }
 
   useEffect(() => {
@@ -81,7 +89,7 @@ export function SEOAnalysis(props) {
   } = results || {};
 
   return (
-    <div className="seo-analysis-results">
+    <div>
       <h2>SEO Analysis Results</h2>
       
       <section>
