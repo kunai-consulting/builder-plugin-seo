@@ -77,8 +77,6 @@
     "@commitlint/config-conventional": "7.1.2",
     "@emotion/core": "10.0.22",
     "@emotion/styled": "10.0.23",
-    "@material-ui/core": "3.9.2",
-    "@material-ui/icons": "3.0.2",
     "@rollup/plugin-commonjs": "19.0.1",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "13.0.2",
@@ -107,6 +105,7 @@
     "replace-in-file": "3.4.2",
     "rimraf": "2.6.2",
     "rollup": "2.53.2",
+    "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-dts": "3.0.2",
     "rollup-plugin-esbuild": "4.5.0",
     "rollup-plugin-node-globals": "1.4.0",
@@ -127,6 +126,7 @@
   "dependencies": {
     "@builder.io/commerce-plugin-tools": "0.3.0",
     "lodash": "4.17.21",
+    "react-paginate": "^8.2.0",
     "seord": "^0.0.5-patch.5",
     "traverse": "0.6.6",
     "uuid": "8.3.2"
