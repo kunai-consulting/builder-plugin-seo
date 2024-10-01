@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import appState from "@builder.io/app-context";
 import { KeywordDensity, LinksGroup, SeoCheck } from "seord";
+import './styles.css';
 
 type Results = {
   seoScore: number;
@@ -97,7 +98,7 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
   } = results || {};
 
   return (
-    <div>
+    <div style={{ padding: '1rem' }}>
       <h2>SEO Analysis Results</h2>
       
       <section>
@@ -130,7 +131,7 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
       <section>
         <h3>Scores and Metrics</h3>
         <ul>
-          <li>SEO Score: {seoScore}</li>
+          <li>SEO Score: {Math.ceil(seoScore || 0)}</li>
           <li>Keyword SEO Score: {keywordSeoScore}</li>
           <li>Keyword Density: {keywordDensity}</li>
           <li>Sub Keyword Density: {subKeywordDensity?.map(({ keyword, density }) => `(${keyword} ${density})`).join(', ')}</li>
