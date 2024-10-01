@@ -13,19 +13,39 @@ Boost your Builder.io projects' SEO with our powerful analysis tool! 🚀
 
 Quickly evaluate and improve your content's search engine friendliness. Perfect for Builder.io users aiming to enhance their visibility! 💡
 
-## Installation
+## Quick Start
 
-- clone this repo
-- `npm install`
-- `npm run start`
+1. Clone this repo
 
-Now the plugin will be running on `http://localhost:1268/plugin.system.js`
+2. Run these commands:
 
-- Go to your Builder account settings, and add the local plugin to your list of plugins:
+install dependencies
+ ```bash
+ npm install
+ ```
+
+start the plugin
 
 ```
-http://localhost:1268/plugin.system.js?pluginId=@builder.io/seo-checker
+npm run start
 ```
 
-*** Notice the pluginId param in the path above, it's necessary to save the plugin settings.
+> This plugin will update without needing to rebuild.
+
+4. Plugin should now running at:
+   `http://localhost:1268/plugin.system.js`
+
+## Add to Builder.io
+
+1. Go to your Builder account settings
+
+2. Add this URL to your plugins list:
+   ```
+   http://localhost:1268/plugin.system.js?pluginId=@builder.io/seo-checker
+   ```
+
+   > 🚨 Important: Don't forget the `pluginId` parameter!
+   > It's crucial for saving plugin settings.
+
+You're now ready to enhance your SEO! 🚀
 
