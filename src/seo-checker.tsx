@@ -93,10 +93,10 @@ const PaginatedList = ({ items, itemsPerPage, renderItem }: PaginatedListProps) 
               css={{
                 margin: '0 0.25rem',
                 padding: '0.25rem 0.5rem',
-                backgroundColor: currentPage === i ? '#4a90e2' : '#f0f0f0',
-                color: currentPage === i ? 'white' : 'black',
-                border: 'none',
-                borderRadius: '3px',
+                backgroundColor: currentPage === i ? '#BFDBFE' : '#E5E7EB',
+                color: currentPage === i ? '#1D4ED8' : '#374151',
+                border: currentPage === i ? '1px solid #60A5FA' : '1px solid #A1A1AA',
+                borderRadius: '2px',
                 cursor: 'pointer',
               }}
             >
@@ -144,7 +144,7 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
   } = results || {};
 
   return (
-    <div css={{ padding: '1rem' }}>
+    <div css={{ padding: '1rem', marginBottom: '2rem', background: '#27272A' }}>
       <div css={{ fontWeight: 'bold', fontSize: '20px', textDecoration: 'underline' }}>SEO Score: {Math.ceil(seoScore || 0)}</div>
       
       <section> 
