@@ -6,6 +6,7 @@ import * as React from "react";
 import builder from "@builder.io/react";
 
 const getPageData = async (apiKey: string) => {
+  // TODO: make sure page model name is not hardcoded
   const url = `https://cdn.builder.io/api/v3/content/page?apiKey=${apiKey}`;
 
   try {
@@ -33,10 +34,7 @@ export const registerComponent = async (apiKey: string) => {
   };
 
   Builder.register("editor.editTab", {
-    name: (
-      // @ts-ignore next-line
-      <div>YoastSEO Plugin</div>
-    ),
+    name: <div>SEO Checker</div>,
     component: () => (
       <SEOAnalysis
         keyword={dummyProps.keyword}

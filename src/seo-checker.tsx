@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import appState from "@builder.io/app-context";
 import { KeywordDensity, LinksGroup, SeoCheck } from "seord";
 
@@ -60,12 +59,58 @@ async function getSeoResults(pluginOpts: PluginOpts) {
   pluginOpts.setResults(newResults);
 }
 
-
 type SEOAnalysisProps = {
   keyword: string,
   subKeywords: string[]
   pageData: any
 }
+
+type PaginatedListProps = {
+  items: any[];
+  itemsPerPage: number;
+  renderItem: (item: any, index: number) => JSX.Element;
+};
+
+const PaginatedList = ({ items, itemsPerPage, renderItem }: PaginatedListProps) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
+
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    setCurrentPage(selectedItem.selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageItems = items.slice(offset, offset + itemsPerPage);
+
+  return (
+    <div>
+        {pageCount > 1 && (
+        <div css={{ marginTop: '1rem' }}>
+          {Array.from({ length: pageCount }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageClick({ selected: i })}
+              css={{
+                margin: '0 0.25rem',
+                padding: '0.25rem 0.5rem',
+                backgroundColor: currentPage === i ? '#4a90e2' : '#f0f0f0',
+                color: currentPage === i ? 'white' : 'black',
+                border: 'none',
+                borderRadius: '3px',
+                cursor: 'pointer',
+              }}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
+      <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
+        {currentPageItems.map((item, index) => renderItem(item, index + offset))}
+      </ul>
+    </div>
+  );
+};
 
 export function SEOAnalysis(props: SEOAnalysisProps) {
   const [results, setResults] = useState<Results | undefined>();
@@ -104,29 +149,35 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
       
       <section> 
         <h3 css={{ color: '#F77', marginTop: '2rem' }}>Warnings ({messages?.warnings?.length || 0})</h3>
-        <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
-          {messages?.warnings?.map((warning, index) => (
+        <PaginatedList
+          items={messages?.warnings || []}
+          itemsPerPage={5}
+          renderItem={(warning, index) => (
             <li key={`warning-${index}`}>🔴 {warning}</li>
-          ))}
-        </ul>
+          )}
+        />
       </section>
 
       <section>
         <h3 css={{ color: '#FEF9C3', marginTop: '2rem' }}>Minor Warnings ({messages?.minorWarnings?.length || 0})</h3>
-        <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
-          {messages?.minorWarnings?.map((warning, index) => (
+        <PaginatedList
+          items={messages?.minorWarnings || []}
+          itemsPerPage={5}
+          renderItem={(warning, index) => (
             <li key={`minor-warning-${index}`}>🟡 {warning}</li>
-          ))}
-        </ul>
+          )}
+        />
       </section>
 
       <section>
         <h3 css={{ color: '#89CE9E', marginTop: '2rem' }}>Good Points ({messages?.goodPoints?.length || 0})</h3>
-        <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
-          {messages?.goodPoints?.map((point, index) => (
+        <PaginatedList
+          items={messages?.goodPoints || []}
+          itemsPerPage={5}
+          renderItem={(point, index) => (
             <li key={`good-point-${index}`}>🟢 {point}</li>
-          ))}
-        </ul>
+          )}
+        />
       </section>
 
       <section>
