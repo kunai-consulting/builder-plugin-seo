@@ -19,16 +19,16 @@ Quickly evaluate and improve your content's search engine friendliness. Perfect 
 
 2. Run these commands:
 
-install dependencies
- ```bash
- npm install
- ```
-
-start the plugin
-
-```
-npm run start
-```
+    install dependencies
+     ```bash
+     npm install
+     ```
+    
+    start the plugin
+    
+    ```
+    npm run start
+    ```
 
 > This plugin will update without needing to rebuild.
 
