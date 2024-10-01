@@ -16,7 +16,6 @@ Quickly evaluate and improve your content's search engine friendliness. Perfect 
 ## Installation
 
 - clone this repo
-- `cd plugins/example-seo-review`
 - `npm install`
 - `npm run start`
 
