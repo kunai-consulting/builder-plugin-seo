@@ -4,7 +4,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import appState from "@builder.io/app-context";
 import { KeywordDensity, LinksGroup, SeoCheck } from "seord";
-import './styles.css';
 
 type Results = {
   seoScore: number;

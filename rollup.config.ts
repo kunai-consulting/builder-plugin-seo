@@ -5,7 +5,6 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import common from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import dotenv from "dotenv";
-import css from "rollup-plugin-css-only";
 const SERVE = process.env.SERVE === "true";
 
 dotenv.config();
@@ -48,7 +47,6 @@ export default {
     nodeResolve({ mainFields: ["module", "browser"] }),
     common(),
     esbuild(),
-    css(),
 
     ...(SERVE
       ? [
