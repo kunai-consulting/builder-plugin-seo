@@ -17,6 +17,8 @@ Quickly evaluate and improve your content's search engine friendliness. Perfect 
 
 1. Clone this repo
 
+---
+
 2. Run these commands:
 
     install dependencies
@@ -35,7 +37,9 @@ Quickly evaluate and improve your content's search engine friendliness. Perfect 
 
 > This plugin will update without needing to rebuild.
 
-4. Plugin should now running at:
+---
+
+3. Plugin should now running at:
    `http://localhost:1268/plugin.system.js`
 
 ## Add to Builder.io
