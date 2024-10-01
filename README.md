@@ -23,12 +23,15 @@ Quickly evaluate and improve your content's search engine friendliness. Perfect 
      ```bash
      npm install
      ```
+
+     ---
     
     start the plugin
     
     ```
     npm run start
     ```
+
 
 > This plugin will update without needing to rebuild.
 
