@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import appState from "@builder.io/app-context";
@@ -98,7 +100,7 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
   } = results || {};
 
   return (
-    <div style={{ padding: '1rem' }}>
+    <div css={{ background: 'red', padding: '1rem' }}>
       <h2>SEO Analysis Results</h2>
       
       <section>
