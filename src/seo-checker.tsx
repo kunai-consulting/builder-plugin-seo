@@ -27,22 +27,23 @@ type Results = {
 
 type PluginOpts = {
   setResults: (results: Results) => void,
-  previewUrl: string,
 } & SEOAnalysisProps
 
 async function getSeoResults(pluginOpts: PluginOpts) {
-  const response = await fetch(pluginOpts.previewUrl, { method: 'GET', mode: 'cors' });
-  const html = await response.text();
-  
-  console.log('page data:', pluginOpts.pageData);
-
   const currPage = pluginOpts.pageData.results.filter((page: any) => page.previewUrl !== undefined)[0];
 
-  console.log('currPage', currPage);
+  const response = await fetch(currPage.previewUrl, { method: 'GET', mode: 'cors' });
+  const html = await response.text();
+
+  const filteredHtml = html
+  // Remove all <script> tags and their contents
+  .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+  // Remove all <style> tags and their contents
+  .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
 
   const contentJson = {
     title: currPage.data.title,
-    htmlText: html,
+    htmlText: filteredHtml,
     keyword: pluginOpts.keyword,
     subKeywords: pluginOpts.subKeywords,
     metaDescription: currPage.data.description,
@@ -50,7 +51,7 @@ async function getSeoResults(pluginOpts: PluginOpts) {
     countryCode: 'us'
   };
 
-  const seoCheck = new SeoCheck(contentJson, pluginOpts.previewUrl || 'https://example.com');
+  const seoCheck = new SeoCheck(contentJson, currPage.previewUrl || 'https://example.com');
 
   const newResults = await seoCheck.analyzeSeo();
   
@@ -67,9 +68,10 @@ type SEOAnalysisProps = {
 export function SEOAnalysis(props: SEOAnalysisProps) {
   const [results, setResults] = useState<Results | undefined>();
 
+  console.log('PREVIEW URL: ', appState.designerState?.editingContentModel?.previewUrl);
+
   const pluginOpts: PluginOpts = {
     setResults: (newResults: Results) => setResults(newResults),
-    previewUrl: appState.designerState?.editingContentModel?.previewUrl || '',
     keyword: props.keyword,
     subKeywords: props.subKeywords,
     pageData: props.pageData
