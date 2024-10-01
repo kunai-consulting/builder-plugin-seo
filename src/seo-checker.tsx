@@ -104,9 +104,9 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
       
       <section> 
         <h3 css={{ color: '#F77', marginTop: '2rem' }}>Warnings ({messages?.warnings?.length || 0})</h3>
-        <ul>
+        <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
           {messages?.warnings?.map((warning, index) => (
-            <li key={`warning-${index}`}>{warning}</li>
+            <li key={`warning-${index}`}>🔴 {warning}</li>
           ))}
         </ul>
       </section>
@@ -115,16 +115,16 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
         <h3 css={{ color: '#FEF9C3', marginTop: '2rem' }}>Minor Warnings ({messages?.minorWarnings?.length || 0})</h3>
         <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
           {messages?.minorWarnings?.map((warning, index) => (
-            <li key={`minor-warning-${index}`}>{warning}</li>
+            <li key={`minor-warning-${index}`}>🟡 {warning}</li>
           ))}
         </ul>
       </section>
 
       <section>
         <h3 css={{ color: '#89CE9E', marginTop: '2rem' }}>Good Points ({messages?.goodPoints?.length || 0})</h3>
-        <ul>
+        <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
           {messages?.goodPoints?.map((point, index) => (
-            <li key={`good-point-${index}`}>{point}</li>
+            <li key={`good-point-${index}`}>🟢 {point}</li>
           ))}
         </ul>
       </section>
