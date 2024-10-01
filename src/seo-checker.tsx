@@ -33,8 +33,8 @@ type PluginOpts = {
 async function getSeoResults(pluginOpts: PluginOpts) {
   const response = await fetch(pluginOpts.previewUrl, { method: 'GET', mode: 'cors' });
   const html = await response.text();
-
-  console.log('HTML: ', html)
+  
+  console.log('page data:', pluginOpts.pageData);
 
   const contentJson = {
     title: 'Does Progressive raise your rates after 6 months?',
@@ -56,7 +56,8 @@ async function getSeoResults(pluginOpts: PluginOpts) {
 
 type SEOAnalysisProps = {
   keyword: string,
-  subKeywords: string[],
+  subKeywords: string[]
+  pageData: Promise<any>
 }
 
 export function SEOAnalysis(props: SEOAnalysisProps) {
@@ -66,7 +67,8 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
     setResults: (newResults: Results) => setResults(newResults),
     previewUrl: appState.designerState?.editingContentModel?.previewUrl || '',
     keyword: props.keyword,
-    subKeywords: props.subKeywords
+    subKeywords: props.subKeywords,
+    pageData: props.pageData
   }
 
   useEffect(() => {
