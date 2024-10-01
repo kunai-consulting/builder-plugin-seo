@@ -99,11 +99,11 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
   } = results || {};
 
   return (
-    <div css={{ background: 'red', padding: '1rem' }}>
-      <h2>SEO Analysis Results</h2>
+    <div css={{ padding: '1rem' }}>
+      <div css={{ fontWeight: 'bold', fontSize: '20px', textDecoration: 'underline' }}>SEO Score: {Math.ceil(seoScore || 0)}</div>
       
-      <section>
-        <h3>Warnings ({messages?.warnings?.length || 0})</h3>
+      <section> 
+        <h3 css={{ color: '#F77', marginTop: '2rem' }}>Warnings ({messages?.warnings?.length || 0})</h3>
         <ul>
           {messages?.warnings?.map((warning, index) => (
             <li key={`warning-${index}`}>{warning}</li>
@@ -112,7 +112,16 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
       </section>
 
       <section>
-        <h3>Good Points ({messages?.goodPoints?.length || 0})</h3>
+        <h3 css={{ color: '#FEF9C3', marginTop: '2rem' }}>Minor Warnings ({messages?.minorWarnings?.length || 0})</h3>
+        <ul css={{ display: 'flex', flexDirection: 'column', gap: '1rem', listStyle: 'none', padding: '0', fontSize: '14px', lineHeight: '1.5' }}>
+          {messages?.minorWarnings?.map((warning, index) => (
+            <li key={`minor-warning-${index}`}>{warning}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 css={{ color: '#89CE9E', marginTop: '2rem' }}>Good Points ({messages?.goodPoints?.length || 0})</h3>
         <ul>
           {messages?.goodPoints?.map((point, index) => (
             <li key={`good-point-${index}`}>{point}</li>
@@ -121,18 +130,8 @@ export function SEOAnalysis(props: SEOAnalysisProps) {
       </section>
 
       <section>
-        <h3>Minor Warnings ({messages?.minorWarnings?.length || 0})</h3>
-        <ul>
-          {messages?.minorWarnings?.map((warning, index) => (
-            <li key={`minor-warning-${index}`}>{warning}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
         <h3>Scores and Metrics</h3>
         <ul>
-          <li>SEO Score: {Math.ceil(seoScore || 0)}</li>
           <li>Keyword SEO Score: {keywordSeoScore}</li>
           <li>Keyword Density: {keywordDensity}</li>
           <li>Sub Keyword Density: {subKeywordDensity?.map(({ keyword, density }) => `(${keyword} ${density})`).join(', ')}</li>
