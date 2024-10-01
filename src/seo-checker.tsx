@@ -36,12 +36,16 @@ async function getSeoResults(pluginOpts: PluginOpts) {
   
   console.log('page data:', pluginOpts.pageData);
 
+  const currPage = pluginOpts.pageData.results.filter((page: any) => page.previewUrl !== undefined)[0];
+
+  console.log('currPage', currPage);
+
   const contentJson = {
-    title: 'Does Progressive raise your rates after 6 months?',
+    title: currPage.data.title,
     htmlText: html,
     keyword: pluginOpts.keyword,
     subKeywords: pluginOpts.subKeywords,
-    metaDescription: 'Find out if Progressive raises your rates after 6 months and what factors can impact your insurance premiums. Learn how to save money on car insurance in the US.',
+    metaDescription: currPage.data.description,
     languageCode: 'en',
     countryCode: 'us'
   };
@@ -57,7 +61,7 @@ async function getSeoResults(pluginOpts: PluginOpts) {
 type SEOAnalysisProps = {
   keyword: string,
   subKeywords: string[]
-  pageData: Promise<any>
+  pageData: any
 }
 
 export function SEOAnalysis(props: SEOAnalysisProps) {
